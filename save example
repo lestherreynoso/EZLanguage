@@ -1,0 +1,13 @@
+mask = [
+    ("Text files","*.txt"),
+    ("Python files","*.py *.pyw"),
+    ("All files","*.*")]
+# if the filename does not have extension
+# it will add the specified defaultextension
+file_save = "test77"
+fout = tkfd.asksaveasfile(
+    title="testing defaultextension='.txt'",
+    initialdir="C:/Python27/Atest27/Bull",
+    initialfile=file_save,
+    defaultextension=".txt",
+    filetypes=mask)
