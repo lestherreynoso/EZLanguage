@@ -20,11 +20,17 @@ def saveFile():
 
 def findHazards():
     tabs = StringVar()
+    stalls = StringVar()
     tabs.set("")
+    stalls.set("")
     pipeline.set("")
     linesOfCode = codeEditText.get('1.0', 'end')
     listOfLines = linesOfCode.split("\n")
+    listOfLines = filter(None, listOfLines)
+
+    #check for data hazards
     for instruction in Program:
+        stalls.set("")
         if Program.index(instruction) == 0:
             pipeline.set("FD\tEXM\tWB\n")
             tabs.set("\t")
@@ -34,23 +40,83 @@ def findHazards():
             #check a type two instruction destination is not yet written by a type one or type two instruction before it
             if s[1] == Program[Program.index(instruction)-1].split()[1]: #checks type two instruction against previous type one or type two instruction
                 messages.set(messages.get() + "\nData Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
-                pipeline.set(pipeline.get() + tabs.get() + "S\tFD\tEXM\tWB\n")
-                tabs.set(tabs.get() + "\t")
+                stalls.set(stalls.get() + "S\t")
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                # pipeline.set(pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n")
+                # if checkStructuralHazards(check):
+                #     print "structural hazards"
+                #     stalls.set(stalls.get() + "S\t")
+                #     messages.set(messages.get() + "\nStructural Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
+
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                pipeline.set(check)
+                tabs.set(tabs.get() + "\t\t")
+                print "type two hazard " + stalls.get()
+
             else:
-                pipeline.set(pipeline.get() + tabs.get() + "FD\tEXM\tWB\n")
+                print "type two no hazard" + stalls.get()
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                # if checkStructuralHazards(check):
+                #     print "structural hazards"
+                    # stalls.set(stalls.get() + "S\t")
+                    # messages.set(messages.get() + "\nStructural Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
+
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                pipeline.set(check)
                 tabs.set(tabs.get() + "\t")
         elif len(s) == 4 and Program.index(instruction) != 0: #type one instruction check
             #check if a type one instrcution sources are not yet written by a previous type two  or type one instruction
             if s[2] == Program[Program.index(instruction)-1].split()[1] or s[3] == Program[Program.index(instruction)-1].split()[1]: # checks type one instruction following a type two
+                print "type one hazard" + stalls.get()
+
                 messages.set(messages.get() + "\nData Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
-                pipeline.set(pipeline.get() + tabs.get() + "S\tFD\tEXM\tWB\n")
-                tabs.set(tabs.get() + "\t")
+                stalls.set(stalls.get() + "S\t")
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                # pipeline.set(pipeline.get() + tabs.get() + "S\tFD\tEXM\tWB\n")
+
+                # if checkStructuralHazards(check):
+                #     print "structural hazards"
+                #
+                #     # stalls.set(stalls.get() + "S\t")
+                #     messages.set(messages.get() + "\nStructural Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
+
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                pipeline.set(check)
+                tabs.set(tabs.get() + "\t\t")
             else:
-                pipeline.set(pipeline.get() + tabs.get() + "FD\tEXM\tWB\n")
+                print "type one no hazard" + stalls.get()
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                # if checkStructuralHazards(check):
+                #     print "structural hazards"
+                #     # stalls.set(stalls.get() + "S\t")
+                #     messages.set(messages.get() + "\nStructural Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
+
+                check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
+                pipeline.set(check)
                 tabs.set(tabs.get() + "\t")
 
 
-    # print s
+def checkStructuralHazards(chk):
+    # check for structural hazards
+    # break apart the pipeline
+    match = False
+    pipelineLines = chk.replace("\t", " /t ").split("\n") #sumalate the tabs since \t isnt read as a string element
+    for line in pipelineLines:
+        line.strip(" ")
+        if pipelineLines.index(line) !=0:
+            p = line.split() #split the lines into the individual stages
+            # print p
+            for stage in p:
+                if stage != "S" and stage != "/t": # no need to check these
+                    print str(p.index(stage)) + " and " + str(len(pipelineLines[pipelineLines.index(line)-1].split()))
+                    print stage
+                    if not int(p.index(stage)) < len(pipelineLines[pipelineLines.index(line)-1].split()):
+                        print "prev too short"
+                    if p.index(stage) < len(pipelineLines[pipelineLines.index(line)-1].split()) and stage == pipelineLines[pipelineLines.index(line)-1].split()[p.index(stage)+ 1]:
+                        print "true " + stage + " = " + pipelineLines[pipelineLines.index(line)-1].split()[p.index(stage)+ 1]
+                        match = True
+                        break
+    return match
 
 def assemble():
     global assembled
@@ -63,7 +129,7 @@ def assemble():
         assembled = True
     else:
         messages.set(messages.get() + "\nProgram has already been assembled")
-    print "assemble"
+    # print "assemble"
 
 
 def forwardingUnit():
@@ -144,11 +210,11 @@ def getInstructions():
                     instructions.set(instructions.get() + generateInstruction(instrComponents) + "\t" + lineOfInstruction + "\n")
                 else:
                     messages.set(messages.get() + "\n'" + lineOfInstruction + "' is not properly formatted")
-                    print "'" + lineOfInstruction + "' is not properly formatted"
+                    # print "'" + lineOfInstruction + "' is not properly formatted"
                     break
             else:
                 messages.set(messages.get() + "\n" + instr + " does not exists")
-                print instr + " does not exists"
+                # print instr + " does not exists"
                 break
 
 def generatePipeline():
