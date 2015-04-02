@@ -4,9 +4,6 @@ from Tkinter import *
 import ttk
 from tkFileDialog import asksaveasfilename, askopenfilename
 
-def parrot(*args):
-    print codeEditText.get('1.0', 'end')
-
 def openFile():
     openFilePath = askopenfilename(defaultextension=".ezl", filetypes=mask)
     openf = open(openFilePath, 'r')
@@ -20,8 +17,52 @@ def saveFile():
     save.write(codeEditText.get('1.0', 'end'))
     print saveFilePath
 
+
+def findHazards():
+    tabs = StringVar()
+    tabs.set("")
+    pipeline.set("")
+    linesOfCode = codeEditText.get('1.0', 'end')
+    listOfLines = linesOfCode.split("\n")
+    for instruction in Program:
+        if Program.index(instruction) == 0:
+            pipeline.set("FD\tEXM\tWB\n")
+            tabs.set("\t")
+        s = instruction.split()
+        if len(s) == 3 and Program.index(instruction) != 0: #type two check and make sure its not the first instruction
+            # print Program[Program.index(instruction)-1].split()[1]
+            #check a type two instruction destination is not yet written by a type one or type two instruction before it
+            if s[1] == Program[Program.index(instruction)-1].split()[1]: #checks type two instruction against previous type one or type two instruction
+                messages.set(messages.get() + "\nData Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
+                pipeline.set(pipeline.get() + tabs.get() + "S\tFD\tEXM\tWB\n")
+                tabs.set(tabs.get() + "\t")
+            else:
+                pipeline.set(pipeline.get() + tabs.get() + "FD\tEXM\tWB\n")
+                tabs.set(tabs.get() + "\t")
+        elif len(s) == 4 and Program.index(instruction) != 0: #type one instruction check
+            #check if a type one instrcution sources are not yet written by a previous type two  or type one instruction
+            if s[2] == Program[Program.index(instruction)-1].split()[1] or s[3] == Program[Program.index(instruction)-1].split()[1]: # checks type one instruction following a type two
+                messages.set(messages.get() + "\nData Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
+                pipeline.set(pipeline.get() + tabs.get() + "S\tFD\tEXM\tWB\n")
+                tabs.set(tabs.get() + "\t")
+            else:
+                pipeline.set(pipeline.get() + tabs.get() + "FD\tEXM\tWB\n")
+                tabs.set(tabs.get() + "\t")
+
+
+    # print s
+
 def assemble():
-    getInstructions()
+    global assembled
+    global entry
+    if entry != codeEditText.get('1.0', 'end'):
+        assembled = False
+    if not assembled :
+        getInstructions()
+        findHazards()
+        assembled = True
+    else:
+        messages.set(messages.get() + "\nProgram has already been assembled")
     print "assemble"
 
 
@@ -58,9 +99,9 @@ def getRegisterBinary(register):
 
 
 def getTypeI(instrComponents):
-    instrucBinary = getInstrBinary(instrComponents[0]) + \
-                    getRegisterBinary(instrComponents[1]) + \
-                    getRegisterBinary(instrComponents[2]) + \
+    instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
+                    getRegisterBinary(instrComponents[1]) + " " +\
+                    getRegisterBinary(instrComponents[2]) + " " +\
                     getRegisterBinary(instrComponents[3])
     return instrucBinary
 
@@ -70,8 +111,8 @@ def getImmediateBinary(immed):
 
 
 def getTypeII(instrComponents):
-    instrucBinary = getInstrBinary(instrComponents[0]) + \
-                getRegisterBinary(instrComponents[1]) + \
+    instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
+                getRegisterBinary(instrComponents[1]) + " " +\
                 getImmediateBinary(instrComponents[2])
     return instrucBinary
 
@@ -84,36 +125,92 @@ def generateInstruction(instrComponents):
     return Instruction
 
 def getInstructions():
+    global entry
+    instructions.set("")
     linesOfCode = codeEditText.get('1.0', 'end')
+    entry = linesOfCode
     listOfLines = linesOfCode.split("\n")
 
-    for x in listOfLines:
-        x = x.lower()
-        if len(x) > 0:
-            x = x.replace(",", "")
-            instrComponents = x.split(" ")
+    for lineOfInstruction in listOfLines:
+        lineOfInstruction = lineOfInstruction.lower()
+        if len(lineOfInstruction) > 0:
+            lineOfInstruction = lineOfInstruction.replace(",", "")
+            instrComponents = lineOfInstruction.split(" ")
             print instrComponents
             instr = instrComponents[0]
             if instructionExists(instr):
                 if verifyFormat(instrComponents):
-                     print generateInstruction(instrComponents)
+                    Program.append(generateInstruction(instrComponents))
+                    instructions.set(instructions.get() + generateInstruction(instrComponents) + "\t" + lineOfInstruction + "\n")
                 else:
-                    print "'" + x + "' is not properly formatted"
+                    messages.set(messages.get() + "\n'" + lineOfInstruction + "' is not properly formatted")
+                    print "'" + lineOfInstruction + "' is not properly formatted"
                     break
             else:
+                messages.set(messages.get() + "\n" + instr + " does not exists")
                 print instr + " does not exists"
                 break
+
+def generatePipeline():
+
+    pass
+# for r in range(3):
+#     for c in range(4):
+#         Tkinter.Label(root, text='R%s/C%s'%(r,c),
+#             borderwidth=1 ).grid(row=r,column=c)
+def ID(processed):
+    #instruction fetch
+    for name, binary in InstructionSet.items():
+        if binary == processed[0]:
+            #instruction decode
+            i = name
+    #fetch registers
+    des = processed[1]
+    #fetch immediate value
+    val = processed[2]
+    if i == "0000":
+        print "loading"
+    # elif i = "0001":
+    # elif i = "0010":
+    # elif i = "0011":
+    # elif i = "0100":
+    # elif i = "0101":
+    # elif i = "0110":
+    # elif i = "0111":
+    # elif i = "1000":
+    # elif i = "1001":
+    # elif i = "1010":
+
+def EXM():
+    pass
+def WB():
+    pass
+def processInstruction(instruction):
+    processed = instruction.split()
+    if len(processed) == 3:
+        ID(processed)
+        pass
+    if len(processed) == 4:
+        pass
 
 
 def run():
     # verifyFormat()
+    if len(Program) == 0:
+        messages.set(messages.get() + "\nYou have not assembled anything")
+        print "You have not assembled anything"
+    else:
+        print Program
+        for instruction in Program:
+            processInstruction(instruction)
     print "run"
 
 # List of instructions
-instructionsList = ["load", "store", "+", "-", "*", "/", "b=", "bn=", "b>", "b<", "j", "sll", "slr", "move"]
+# instructionsList = ["load", "store", "+", "-", "*", "/", "b=", "bn=", "b>", "b<", "j", "sll", "slr", "move"]
 # for x in instructionsList:
 #     print '{0:04b}'.format(instructionsList.index(x)), x    # method for getting the corresponding binary
 
+Program = []
 InstructionSet = {
     "load": "0000",
     "store": "0001",
@@ -143,16 +240,25 @@ RegisterSet = {
     "r9": "1000",
     "r10": "1001"
 }
+
 # for k in InstructionSet.keys():
 #     print k + " : " + InstructionSet.get(k)
 
 mask = [("EZL files","*.ezl"),
     ("Text files","*.txt"),
     ("All files","*.*")]
+assembled = False
 
 window = Tk()
 window.title("EZL IDE")
 
+entry = StringVar()
+messages = StringVar()
+messages.set("Information: \n")
+instructions = StringVar()
+instructions.set("")
+pipeline = StringVar()
+pipeline.set("")
 content = ttk.Frame(window, padding="12 12 12 12")
 content.grid(column=0, row=0, sticky=(N, W, E, S))
 content.columnconfigure(0, weight=1)
@@ -171,21 +277,27 @@ ttk.Label(content, textvariable=codeEditLabel).grid(column=1, columnspan=4, row=
 
 codeEditText = Text(content, width=40, height=10)
 codeEditText.grid(column=1, row=3, columnspan=4, rowspan=11, sticky=(W, E))
-ttk.Label(content, text="Memory ").grid(column=1, row=13, columnspan=4, sticky=(W, E))
+
+ttk.Label(content, textvariable=messages).grid(column=1, row=14, rowspan = 15, columnspan=8, sticky=(W, E))
+ttk.Label(content, text="Instructions").grid(column=7, row=14, sticky=(W, E))
+ttk.Label(content, text="Pipeline").grid(column=16, row=14, sticky=(W, E))
+
+ttk.Label(content, textvariable=instructions).grid(column=7, row=15, columnspan=8, sticky=(W, E))
+ttk.Label(content, textvariable=pipeline).grid(column=16, row=15, columnspan=8, sticky=(W, E))
 
 
 # ttk.Button(content, text="Repeat", command=parrot).grid(column=5, row=3, sticky=W)
 
-ttk.Label(content, text="r1").grid(column=7, row=2, sticky=(W, E))
-ttk.Label(content, text="r2").grid(column=7, row=3, sticky=(W, E))
-ttk.Label(content, text="r3").grid(column=7, row=4, sticky=(W, E))
-ttk.Label(content, text="r4").grid(column=7, row=5, sticky=(W, E))
-ttk.Label(content, text="r5").grid(column=7, row=6, sticky=(W, E))
-ttk.Label(content, text="r6").grid(column=7, row=7, sticky=(W, E))
-ttk.Label(content, text="r7").grid(column=7, row=8, sticky=(W, E))
-ttk.Label(content, text="r8").grid(column=7, row=9, sticky=(W, E))
-ttk.Label(content, text="r9").grid(column=7, row=10, sticky=(W, E))
-ttk.Label(content, text="r10").grid(column=7, row=11, sticky=(W, E))
+ttk.Label(content, text="r1").grid(column=7, row=2, sticky=(W, E), padx=5)
+ttk.Label(content, text="r2").grid(column=7, row=3, sticky=(W, E), padx=5)
+ttk.Label(content, text="r3").grid(column=7, row=4, sticky=(W, E), padx=5)
+ttk.Label(content, text="r4").grid(column=7, row=5, sticky=(W, E), padx=5)
+ttk.Label(content, text="r5").grid(column=7, row=6, sticky=(W, E), padx=5)
+ttk.Label(content, text="r6").grid(column=7, row=7, sticky=(W, E), padx=5)
+ttk.Label(content, text="r7").grid(column=7, row=8, sticky=(W, E), padx=5)
+ttk.Label(content, text="r8").grid(column=7, row=9, sticky=(W, E), padx=5)
+ttk.Label(content, text="r9").grid(column=7, row=10, sticky=(W, E), padx=5)
+ttk.Label(content, text="r10").grid(column=7, row=11, sticky=(W, E), padx=5)
 
 r1 = StringVar()
 r2 = StringVar()
@@ -209,19 +321,15 @@ r8.set("0")
 r9.set("0")
 r10.set("0")
 
-ttk.Label(content, textvariable=r1).grid(column=8, row=2, sticky=(W, E))
-ttk.Label(content, textvariable=r2).grid(column=8, row=3, sticky=(W, E))
-ttk.Label(content, textvariable=r3).grid(column=8, row=4, sticky=(W, E))
-ttk.Label(content, textvariable=r4).grid(column=8, row=5, sticky=(W, E))
-ttk.Label(content, textvariable=r5).grid(column=8, row=6, sticky=(W, E))
-ttk.Label(content, textvariable=r6).grid(column=8, row=7, sticky=(W, E))
-ttk.Label(content, textvariable=r7).grid(column=8, row=8, sticky=(W, E))
-ttk.Label(content, textvariable=r8).grid(column=8, row=9, sticky=(W, E))
-ttk.Label(content, textvariable=r9).grid(column=8, row=10, sticky=(W, E))
-ttk.Label(content, textvariable=r10).grid(column=8, row=11, sticky=(W, E))
-content.bind('<Return>', parrot)
-
-
-
+ttk.Label(content, textvariable=r1).grid(column=8, row=2, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r2).grid(column=8, row=3, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r3).grid(column=8, row=4, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r4).grid(column=8, row=5, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r5).grid(column=8, row=6, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r6).grid(column=8, row=7, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r7).grid(column=8, row=8, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r8).grid(column=8, row=9, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r9).grid(column=8, row=10, sticky=(W, E), padx=5)
+ttk.Label(content, textvariable=r10).grid(column=8, row=11, sticky=(W, E), padx=5)
 
 window.mainloop()
