@@ -148,6 +148,8 @@ def verifyFormat(instrComponents):
     if (len(instrComponents) == 3 and isNumber(instrComponents[2]))\
             or (len(instrComponents) == 4):
         return True
+    elif len(instrComponents) == 3:
+        return True
     else:
         return False
 
@@ -177,9 +179,14 @@ def getImmediateBinary(immed):
 
 
 def getTypeII(instrComponents):
-    instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
-                getRegisterBinary(instrComponents[1]) + " " +\
-                getImmediateBinary(instrComponents[2])
+    if instrComponents[0] != "move":
+        instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
+                    getRegisterBinary(instrComponents[1]) + " " +\
+                    getImmediateBinary(instrComponents[2])
+    else:
+        instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
+                    getRegisterBinary(instrComponents[1]) + " " +\
+                    getRegisterBinary(instrComponents[2]) + " 0000"
     return instrucBinary
 
 
@@ -217,47 +224,115 @@ def getInstructions():
                 # print instr + " does not exists"
                 break
 
-def generatePipeline():
 
-    pass
-# for r in range(3):
-#     for c in range(4):
-#         Tkinter.Label(root, text='R%s/C%s'%(r,c),
-#             borderwidth=1 ).grid(row=r,column=c)
-def ID(processed):
+def getReg(r):
+    global r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
+    if r == "r1":
+        return r1.get()
+    elif r == "r2":
+        return r2.get()
+    elif r == "r3":
+        return r3.get()
+    elif r == "r4":
+        return r4.get()
+    elif r == "r5":
+        return r5.get()
+    elif r == "r6":
+        return r6.get()
+    elif r == "r7":
+        return r7.get()
+    elif r == "r8":
+        return r8.get()
+    elif r == "r9":
+        return r9.get()
+    elif r == "r10":
+        return r10.get()
+
+def setReg(r, val):
+    global r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
+    if r == "r1":
+        r1.set(val)
+    elif r == "r2":
+        r2.set(val)
+    elif r == "r3":
+        r3.set(val)
+    elif r == "r4":
+        r4.set(val)
+    elif r == "r5":
+        r5.set(val)
+    elif r == "r6":
+        r6.set(val)
+    elif r == "r7":
+        r7.set(val)
+    elif r == "r8":
+        r8.set(val)
+    elif r == "r9":
+        r9.set(val)
+    elif r == "r10":
+        r10.set(val)
+
+def findReg(guess):
+    for register, binary in RegisterSet.items():
+        if binary == guess:
+            return register
+
+def processInstruction(instruction):
+    processed = instruction.split()
     #instruction fetch
     for name, binary in InstructionSet.items():
         if binary == processed[0]:
             #instruction decode
             i = name
-    #fetch registers
-    des = processed[1]
-    #fetch immediate value
-    val = processed[2]
-    if i == "0000":
-        print "loading"
-    # elif i = "0001":
-    # elif i = "0010":
-    # elif i = "0011":
-    # elif i = "0100":
-    # elif i = "0101":
-    # elif i = "0110":
-    # elif i = "0111":
-    # elif i = "1000":
-    # elif i = "1001":
-    # elif i = "1010":
 
-def EXM():
-    pass
-def WB():
-    pass
-def processInstruction(instruction):
-    processed = instruction.split()
-    if len(processed) == 3:
-        ID(processed)
-        pass
-    if len(processed) == 4:
-        pass
+    if i == "load":
+        print "loading"
+        r = findReg(processed[1])
+        setReg(r, str(int(processed[2], 2)))
+        # reg = getReg(r)
+
+    elif i == "store":
+        print "storing"
+        r = findReg(processed[1])
+        setReg(r, str(int(processed[2], 2)))
+
+    elif i == "+":
+        print "adding"
+        des = findReg(processed[1])
+        s1 = findReg(processed[2])
+        s2 = findReg(processed[3])
+        setReg(des, str(int(getReg(s1)) + int(getReg(s2))))
+
+    elif i == "-":
+        print "subtracting"
+        des = findReg(processed[1])
+        s1 = findReg(processed[2])
+        s2 = findReg(processed[3])
+        setReg(des, str(int(s1) - int(s2)))
+
+    elif i == "*":
+        print "multiplication"
+        des = findReg(processed[1])
+        s1 = findReg(processed[2])
+        s2 = findReg(processed[3])
+        setReg(des, str(int(getReg(s1)) * int(getReg(s2))))
+
+    elif i == "/":
+        print "division"
+        des = findReg(processed[1])
+        s1 = findReg(processed[2])
+        s2 = findReg(processed[3])
+        setReg(des, str(int(s1) / int(s2)))
+
+    # elif i == "b=":
+    # elif i == "bn=":
+    # elif i == "b>":
+    # elif i == "b<":
+    # elif i == "j":
+    # elif i == "sll":
+    # elif i == "slr":
+    elif i == "move":
+        print "moving"
+        setReg(findReg(processed[2]), getReg(findReg(processed[1])))
 
 
 def run():
@@ -270,6 +345,18 @@ def run():
         for instruction in Program:
             processInstruction(instruction)
     print "run"
+
+def runOne():
+    global runOneCount
+    runOneCount += 1
+    # verifyFormat()
+    if len(Program) == 0:
+        messages.set(messages.get() + "\nYou have not assembled anything")
+        print "You have not assembled anything"
+    elif runOneCount < len(Program):
+        instruction = Program[runOneCount]
+        processInstruction(instruction)
+    print "runOne"
 
 # List of instructions
 # instructionsList = ["load", "store", "+", "-", "*", "/", "b=", "bn=", "b>", "b<", "j", "sll", "slr", "move"]
@@ -310,6 +397,8 @@ RegisterSet = {
 # for k in InstructionSet.keys():
 #     print k + " : " + InstructionSet.get(k)
 
+runOneCount = -1
+
 mask = [("EZL files","*.ezl"),
     ("Text files","*.txt"),
     ("All files","*.*")]
@@ -337,12 +426,13 @@ ttk.Button(content, text="Save", command=saveFile).grid(column=1, row=1, sticky=
 ttk.Button(content, text="Open", command=openFile).grid(column=2, row=1, sticky=W)
 ttk.Button(content, text="Assemble", command=assemble).grid(column=3, row=1, sticky=W)
 ttk.Button(content, text="Run", command=run).grid(column=4, row=1, sticky=W)
+ttk.Button(content, text="Run one", command=runOne).grid(column=5, row=1, sticky=W)
 
 ttk.Label(content, textvariable=codeEditLabel).grid(column=1, columnspan=4, row=2, sticky=(W, E))
 
 
 codeEditText = Text(content, width=40, height=10)
-codeEditText.grid(column=1, row=3, columnspan=4, rowspan=11, sticky=(W, E))
+codeEditText.grid(column=1, row=3, columnspan=5, rowspan=11, sticky=(W, E))
 
 ttk.Label(content, textvariable=messages).grid(column=1, row=14, rowspan = 15, columnspan=8, sticky=(W, E))
 ttk.Label(content, text="Instructions").grid(column=7, row=14, sticky=(W, E))
