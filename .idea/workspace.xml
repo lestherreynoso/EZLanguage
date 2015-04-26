@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="726d9a94-45c7-4d64-b0e3-34f547cc2ce6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EZL.py" afterPath="$PROJECT_DIR$/EZL.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/EZLanguage.iml" afterPath="$PROJECT_DIR$/.idea/EZLanguage.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="EZLanguage.iws" />
@@ -32,21 +30,13 @@
       <file leaf-file-name="EZL.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EZL.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5752688" vertical-offset="4736" max-vertical-offset="7440">
-              <caret line="330" column="22" selection-start-line="330" selection-start-column="22" selection-end-line="330" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.6215596" vertical-offset="6674" max-vertical-offset="9645">
+              <caret line="527" column="37" selection-start-line="527" selection-start-column="37" selection-end-line="527" selection-end-column="37" />
               <folding>
-                <element signature="e#21#42#0" expanded="true" />
+                <element signature="e#5227#6412#0" expanded="false" />
+                <element signature="e#10991#11477#0" expanded="false" />
+                <element signature="e#11503#11949#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tkinter.py" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/lib/python2.7/lib-tk/Tkinter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="15933" max-vertical-offset="57315">
-              <caret line="1072" column="0" selection-start-line="1072" selection-start-column="0" selection-end-line="1072" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -68,10 +58,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1380" />
-    <option name="height" value="876" />
+    <option name="x" value="180" />
+    <option name="y" value="64" />
+    <option name="width" value="1370" />
+    <option name="height" value="848" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -142,6 +132,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="845" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="restartRequiresConfirmation" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -176,9 +167,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="EZLanguage" />
@@ -347,11 +338,17 @@
       <option name="project" value="LOCAL" />
       <updated>1427987983510</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="All but branching works">
+      <created>1428463220153</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1428463220153</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1380" height="876" extended-state="4" />
+    <frame x="180" y="64" width="1370" height="848" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -359,10 +356,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.072463766" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39871794" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.07226277" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39871794" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948717" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34615386" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35384616" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -394,18 +391,12 @@
     </option>
     <MESSAGE value="pipeline generated" />
     <MESSAGE value="pipeline fixed.. there doesnt seem to be a need for structural hazard detection." />
-    <option name="LAST_COMMIT_MESSAGE" value="pipeline fixed.. there doesnt seem to be a need for structural hazard detection." />
+    <MESSAGE value="All but branching works" />
+    <option name="LAST_COMMIT_MESSAGE" value="All but branching works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/EZL.py</url>
-          <line>185</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="13" />
+      <option name="time" value="14" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -416,10 +407,84 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/EZL.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4665">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7185">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7635">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7635">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7410">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7410">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7440">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8432">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -429,7 +494,21 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4665">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EZL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4665">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -446,7 +525,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4879">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -463,7 +544,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4879">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -480,7 +563,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4879">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -497,7 +582,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4641">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -514,7 +601,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1819" max-vertical-offset="3944">
           <caret line="180" column="55" selection-start-line="180" selection-start-column="55" selection-end-line="180" selection-end-column="55" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -531,7 +620,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3944">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -548,7 +639,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2278">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -565,7 +658,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2278">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -582,7 +677,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2278">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -599,7 +696,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2010">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -616,7 +715,9 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -642,20 +743,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/lib/python2.7/lib-tk/Tkinter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="15933" max-vertical-offset="57315">
-          <caret line="1072" column="0" selection-start-line="1072" selection-start-column="0" selection-end-line="1072" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EZL.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5752688" vertical-offset="4736" max-vertical-offset="7440">
-          <caret line="330" column="22" selection-start-line="330" selection-start-column="22" selection-end-line="330" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.6215596" vertical-offset="6674" max-vertical-offset="9645">
+          <caret line="527" column="37" selection-start-line="527" selection-start-column="37" selection-end-line="527" selection-end-column="37" />
           <folding>
-            <element signature="e#21#42#0" expanded="true" />
+            <element signature="e#5227#6412#0" expanded="false" />
+            <element signature="e#10991#11477#0" expanded="false" />
+            <element signature="e#11503#11949#0" expanded="false" />
           </folding>
         </state>
       </provider>

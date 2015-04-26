@@ -51,10 +51,10 @@ def findHazards():
                 check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
                 pipeline.set(check)
                 tabs.set(tabs.get() + "\t\t")
-                print "type two hazard " + stalls.get()
+                # print "type two hazard " + stalls.get()
 
             else:
-                print "type two no hazard" + stalls.get()
+                # print "type two no hazard" + stalls.get()
                 check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
                 # if checkStructuralHazards(check):
                 #     print "structural hazards"
@@ -67,7 +67,7 @@ def findHazards():
         elif len(s) == 4 and Program.index(instruction) != 0: #type one instruction check
             #check if a type one instrcution sources are not yet written by a previous type two  or type one instruction
             if s[2] == Program[Program.index(instruction)-1].split()[1] or s[3] == Program[Program.index(instruction)-1].split()[1]: # checks type one instruction following a type two
-                print "type one hazard" + stalls.get()
+                # print "type one hazard" + stalls.get()
 
                 messages.set(messages.get() + "\nData Hazard between '" + listOfLines[Program.index(instruction)-1]+"' and '" +  listOfLines[Program.index(instruction)] + "'" )
                 stalls.set(stalls.get() + "S\t")
@@ -84,7 +84,7 @@ def findHazards():
                 pipeline.set(check)
                 tabs.set(tabs.get() + "\t\t")
             else:
-                print "type one no hazard" + stalls.get()
+                # print "type one no hazard" + stalls.get()
                 check = pipeline.get() + tabs.get() + stalls.get() + "FD\tEXM\tWB\n"
                 # if checkStructuralHazards(check):
                 #     print "structural hazards"
@@ -145,7 +145,9 @@ def isNumber(param):
 
 
 def verifyFormat(instrComponents):
-    if (len(instrComponents) == 3 and isNumber(instrComponents[2]))\
+    if instrComponents[0] == "j" and len(instrComponents) == 2:
+        return True
+    elif (len(instrComponents) == 3 and isNumber(instrComponents[2]))\
             or (len(instrComponents) == 4):
         return True
     elif len(instrComponents) == 3:
@@ -167,10 +169,17 @@ def getRegisterBinary(register):
 
 
 def getTypeI(instrComponents):
-    instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
-                    getRegisterBinary(instrComponents[1]) + " " +\
-                    getRegisterBinary(instrComponents[2]) + " " +\
-                    getRegisterBinary(instrComponents[3])
+    if instrComponents[0] == "j":
+        instrucBinary = getInstrBinary(instrComponents[0]) + " 1111 1111 1111"
+    elif  instrComponents[0] == "b=" or instrComponents[0] == "bn=" or instrComponents[0] == "b>" or instrComponents[0] == "b<":
+        instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
+                        getRegisterBinary(instrComponents[1]) + " " +\
+                        getRegisterBinary(instrComponents[2]) + " 1111"
+    else:
+        instrucBinary = getInstrBinary(instrComponents[0]) + " " +\
+                        getRegisterBinary(instrComponents[1]) + " " +\
+                        getRegisterBinary(instrComponents[2]) + " " +\
+                        getRegisterBinary(instrComponents[3])
     return instrucBinary
 
 
@@ -191,7 +200,9 @@ def getTypeII(instrComponents):
 
 
 def generateInstruction(instrComponents):
-    if len(instrComponents) == 3:
+    if len(instrComponents) == 2:
+        Instruction = getTypeI(instrComponents)
+    elif len(instrComponents) == 3:
         Instruction =getTypeII(instrComponents)
     elif len(instrComponents) == 4:
         Instruction =getTypeI(instrComponents)
@@ -199,31 +210,47 @@ def generateInstruction(instrComponents):
 
 def getInstructions():
     global entry
+    global entryLines
+    global Labels
+
     instructions.set("")
     linesOfCode = codeEditText.get('1.0', 'end')
     entry = linesOfCode
+    linesOfCode = linesOfCode.replace(":", ":\n")
     listOfLines = linesOfCode.split("\n")
 
     for lineOfInstruction in listOfLines:
+
         lineOfInstruction = lineOfInstruction.lower()
         if len(lineOfInstruction) > 0:
-            lineOfInstruction = lineOfInstruction.replace(",", "")
-            instrComponents = lineOfInstruction.split(" ")
-            print instrComponents
-            instr = instrComponents[0]
-            if instructionExists(instr):
-                if verifyFormat(instrComponents):
-                    Program.append(generateInstruction(instrComponents))
-                    instructions.set(instructions.get() + generateInstruction(instrComponents) + "\t" + lineOfInstruction + "\n")
-                else:
-                    messages.set(messages.get() + "\n'" + lineOfInstruction + "' is not properly formatted")
-                    # print "'" + lineOfInstruction + "' is not properly formatted"
-                    break
+            if lineOfInstruction.find(":") != -1:
+                labelArray = lineOfInstruction.split(":")
+                Labels.append(labelArray[0])
             else:
-                messages.set(messages.get() + "\n" + instr + " does not exists")
-                # print instr + " does not exists"
-                break
+                entryLines.append(lineOfInstruction)
+                lineOfInstruction = lineOfInstruction.replace(",", "")
+                instrComponents = lineOfInstruction.split(" ")
+                print instrComponents
+                instr = instrComponents[0]
+                if instructionExists(instr):
+                    if verifyFormat(instrComponents):
+                        if isBranch(instrComponents):
+                            pass
+                        Program.append(generateInstruction(instrComponents))
+                        instructions.set(instructions.get() + generateInstruction(instrComponents) + "\t" + lineOfInstruction + "\n")
+                    else:
+                        messages.set(messages.get() + "\n'" + lineOfInstruction + "' is not properly formatted")
+                        # print "'" + lineOfInstruction + "' is not properly formatted"
+                        break
+                else:
+                    messages.set(messages.get() + "\n" + instr + " does not exists")
+                    # print instr + " does not exists"
+                    break
 
+
+def isBranch(inst):
+    if inst[0] == "b=" or inst[0] == "bn=" or inst[0] == "b>" or inst[0] == "b<" or inst[0] == "j":
+        return True;
 
 def getReg(r):
     global r1, r2, r3, r4, r5, r6, r7, r8, r9, r10
@@ -277,7 +304,10 @@ def findReg(guess):
             return register
 
 def processInstruction(instruction):
+    global entryLines
+    global entry
     processed = instruction.split()
+
     #instruction fetch
     for name, binary in InstructionSet.items():
         if binary == processed[0]:
@@ -307,7 +337,7 @@ def processInstruction(instruction):
         des = findReg(processed[1])
         s1 = findReg(processed[2])
         s2 = findReg(processed[3])
-        setReg(des, str(int(s1) - int(s2)))
+        setReg(des, str(int(getReg(s1)) - int(getReg(s2))))
 
     elif i == "*":
         print "multiplication"
@@ -321,19 +351,196 @@ def processInstruction(instruction):
         des = findReg(processed[1])
         s1 = findReg(processed[2])
         s2 = findReg(processed[3])
-        setReg(des, str(int(s1) / int(s2)))
+        setReg(des, str(int(getReg(s1)) / int(getReg(s2))))
 
-    # elif i == "b=":
-    # elif i == "bn=":
-    # elif i == "b>":
-    # elif i == "b<":
-    # elif i == "j":
-    # elif i == "sll":
-    # elif i == "slr":
+    elif i == "b=":
+        if getReg(findReg(processed[1])) == getReg(findReg(processed[2])):
+            print instruction
+            print entryLines
+            entry = entry.lower()
+            entry = entry.replace(":", ":\n")
+            el = entry.split("\n")
+            for thing in el:
+                if thing.find(i +  findReg(processed[1]) + ", " + findReg(processed[2])+ ", ") != 0:
+                    thing = thing.replace(",", "")
+                    ell = thing.split(" ")
+                    # print "ell = "
+                    # print ell
+                    if Labels.index(ell[3]) == -1:
+                        messages.set(messages.get() + "\nThe label'" + ell[3] +"' does not exists")
+                    else:
+                        for labelsearch in el:
+                            # print "looking for label search in the list of liens"
+                            # print labelsearch
+                            if labelsearch == ell[3]+":":
+                                runOneCount = el.index(labelsearch) + 1#label position
+                                print runOneCount
+                                l = runOneCount
+                                while el[l] == "":
+                                    l = l+1
+                                print el[l]
+                                branchTo(el[l])
+                                break
+                        break
+
+        #     Program.index(instruction)
+        #     branchTo(processed[3])
+    elif i == "bn=":
+        if getReg(findReg(processed[1])) != getReg(findReg(processed[2])):
+            print instruction
+            print entryLines
+            entry = entry.lower()
+            entry = entry.replace(":", ":\n")
+            el = entry.split("\n")
+            for thing in el:
+                if thing.find(i +  findReg(processed[1]) + ", " + findReg(processed[2])+ ", ") != 0:
+                    thing = thing.replace(",", "")
+                    ell = thing.split(" ")
+                    # print "ell = "
+                    # print ell
+                    if Labels.index(ell[3]) == -1:
+                        messages.set(messages.get() + "\nThe label'" + ell[3] +"' does not exists")
+                    else:
+                        for labelsearch in el:
+                            # print "looking for label search in the list of liens"
+                            # print labelsearch
+                            if labelsearch == ell[3]+":":
+                                runOneCount = el.index(labelsearch) + 1#label position
+                                print runOneCount
+                                l = runOneCount
+                                while el[l] == "":
+                                    l = l+1
+                                print el[l]
+                                branchTo(el[l])
+                                break
+                        break
+    elif i == "b>":
+        if getReg(findReg(processed[1])) > getReg(findReg(processed[2])):
+            print instruction
+            print entryLines
+            entry = entry.lower()
+            entry = entry.replace(":", ":\n")
+            el = entry.split("\n")
+            for thing in el:
+                if thing.find(i +  findReg(processed[1]) + ", " + findReg(processed[2])+ ", ") != 0:
+                    thing = thing.replace(",", "")
+                    ell = thing.split(" ")
+                    # print "ell = "
+                    # print ell
+                    if Labels.index(ell[3]) == -1:
+                        messages.set(messages.get() + "\nThe label'" + ell[3] +"' does not exists")
+                    else:
+                        for labelsearch in el:
+                            # print "looking for label search in the list of liens"
+                            # print labelsearch
+                            if labelsearch == ell[3]+":":
+                                runOneCount = el.index(labelsearch) + 1#label position
+                                print runOneCount
+                                l = runOneCount
+                                while el[l] == "":
+                                    l = l+1
+                                print el[l]
+                                branchTo(el[l])
+                                break
+                        break
+    elif i == "b<":
+        if getReg(findReg(processed[1])) < getReg(findReg(processed[2])):
+            print instruction
+            print entryLines
+            entry = entry.lower()
+            entry = entry.replace(":", ":\n")
+            el = entry.split("\n")
+            for thing in el:
+                if thing.find(i +  findReg(processed[1]) + ", " + findReg(processed[2])+ ", ") != 0:
+                    thing = thing.replace(",", "")
+                    ell = thing.split(" ")
+                    # print "ell = "
+                    # print ell
+                    if Labels.index(ell[3]) == -1:
+                        messages.set(messages.get() + "\nThe label'" + ell[3] +"' does not exists")
+                    else:
+                        for labelsearch in el:
+                            # print "looking for label search in the list of liens"
+                            # print labelsearch
+                            if labelsearch == ell[3]+":":
+                                runOneCount = el.index(labelsearch) + 1#label position
+                                print runOneCount
+                                l = runOneCount
+                                while el[l] == "":
+                                    l = l+1
+                                print el[l]
+                                branchTo(el[l])
+                                break
+                        break
+    elif i == "j":
+        # print instruction
+        # print entryLines
+        print i
+        entry = entry.lower()
+        entry = entry.replace(":", ":\n")
+        el = entry.split("\n")
+        for thing in el:
+            if thing.find("j ") == 0:
+                ell = thing.split(" ")
+                print "ell = "
+                print ell
+                if Labels.index(ell[1]) == -1:
+                    messages.set(messages.get() + "\nThe label'" + ell[1] +"' does not exists")
+                else:
+                    for labelsearch in el:
+                        # print "looking for label search in the list of liens"
+                        # print labelsearch
+                        if labelsearch == ell[1]+":":
+                            runOneCount = el.index(labelsearch) + 1#label position + 1 makes it the next line
+                            print runOneCount
+                            l = runOneCount
+                            while el[l] == "":
+                                l = l+1
+                            print el[l]
+                            branchTo(el[l])
+                            break
+                    break
+    elif i == "sll":
+        r = findReg(processed[1])
+        e = getReg(r)
+        # print e
+        i = 0
+        zeros = ""
+        while i != int(processed[2], 2):
+            zeros = zeros + "0"
+            i= i+1
+        bin = "{0:08b}".format(int(e))
+        print bin
+        after = bin + zeros
+        print "after is " + str(int(after, 2))
+        # af = "{0:08b}".format(str(int(after, 2)))
+        # print af
+        setReg(r, str(int(after, 2)))
+    elif i == "slr":
+        r = findReg(processed[1])
+        e = getReg(r)
+        # print e
+        i = 0
+        zeros = ""
+        while i != int(processed[2], 2):
+            zeros = zeros + "0"
+            i= i+1
+        bin = "{0:08b}".format(int(e))
+        print bin
+        after = zeros + bin
+        print "after is " + str(int(after, 2))
+        # af = "{0:08b}".format(str(int(after, 2)))
+        # print af
+        setReg(r, str(int(after, 2)))
     elif i == "move":
         print "moving"
         setReg(findReg(processed[2]), getReg(findReg(processed[1])))
 
+def branchTo(b):
+    global runOneCount
+    b = b.replace(",", "")
+    runOneCount = Program.index(generateInstruction(b.split(" "))) -1
+    # runOne()
 
 def run():
     # verifyFormat()
@@ -342,8 +549,10 @@ def run():
         print "You have not assembled anything"
     else:
         print Program
-        for instruction in Program:
-            processInstruction(instruction)
+        while runOneCount != len(Program):
+            runOne()
+        # for instruction in Program:
+        #     processInstruction(instruction)
     print "run"
 
 def runOne():
@@ -356,7 +565,7 @@ def runOne():
     elif runOneCount < len(Program):
         instruction = Program[runOneCount]
         processInstruction(instruction)
-    print "runOne"
+    # print "runOne"
 
 # List of instructions
 # instructionsList = ["load", "store", "+", "-", "*", "/", "b=", "bn=", "b>", "b<", "j", "sll", "slr", "move"]
@@ -364,6 +573,7 @@ def runOne():
 #     print '{0:04b}'.format(instructionsList.index(x)), x    # method for getting the corresponding binary
 
 Program = []
+Labels = []
 InstructionSet = {
     "load": "0000",
     "store": "0001",
@@ -408,6 +618,7 @@ window = Tk()
 window.title("EZL IDE")
 
 entry = StringVar()
+entryLines = []
 messages = StringVar()
 messages.set("Information: \n")
 instructions = StringVar()
