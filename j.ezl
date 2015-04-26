@@ -1,0 +1,8 @@
+load r10, 150
+j change
+
+load r8, 99
+
+change:
+load r9, 11
+

@@ -1,0 +1,6 @@
+b= r1, r2, cat
+load r10, 19
+
+cat:
+load r9, 20
+

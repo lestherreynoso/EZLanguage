@@ -1,0 +1,10 @@
+load r1, 5
+load r1, 4
+
++ r2, r2, r3
+load r2, 4
+
+- r5, r6, r8
+* r10, r1, r5
+/ r6, r9, r5
+

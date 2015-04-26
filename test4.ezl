@@ -1,0 +1,8 @@
+load r2, 5
+load r3, 4
+
++ r2, r2, r3
+load r5, 4
+move r2, r8
+
+
